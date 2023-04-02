@@ -1,0 +1,118 @@
+﻿@page "/counter"
+@using System.Text
+
+<PageTitle>Counter</PageTitle>
+
+<p role="status">Current count: @currentCount</p>
+<div class="field">@text</div>
+
+<button class="btn btn-primary" @onclick="Down">Down</button>
+<button class="btn btn-primary" @onclick="Up">Up</button>
+<button class="btn btn-primary" @onclick="Left">Left</button>
+<button class="btn btn-primary" @onclick="Right">Right</button>
+<input id="gamepad" type="text" @onkeydown="@Enter" />
+@code {
+    private int currentCount = 0;
+    private string text =string.Empty;
+    private static int fieldSize = 6;
+    private string[,] positions = new string[fieldSize, fieldSize];
+
+    private (int, int) position = (0, 0);
+    private StringBuilder _stringBuilder = new StringBuilder();
+
+    [Inject] private IJSRuntime _js { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Move();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _js.InvokeAsync<bool>("SetFocusByElementId", "gamepad");
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void Move()
+    {
+        text = string.Empty;
+        _stringBuilder.Clear();
+        for (int i = 0; i < fieldSize; i++)
+        {
+            for (int j = 0; j < fieldSize; j++)
+            {
+                if (i == position.Item1 && j == position.Item2)
+                {
+                    positions[position.Item1, position.Item2] = "🐈";
+                }
+                else
+                {
+                    positions[i, j] = "🌳";
+                }
+
+                _stringBuilder.Append(positions[i, j]);
+            }
+
+            _stringBuilder.Append(Environment.NewLine);
+        }
+
+        text = _stringBuilder.ToString();
+    }
+
+
+    private void Down()
+    {
+        if (position.Item1 < fieldSize-1)
+        {
+            position.Item1++;
+            Move();
+        }
+    }   
+
+    private void Up()
+    {
+        if (position.Item1 > 0)
+        {
+            position.Item1--;
+            Move();
+        }
+    }   
+
+    private void Left()
+    {
+        if (position.Item2 > 0)
+        {
+            position.Item2--;
+            Move();
+        }
+    }   
+
+    private void Right()
+    {
+        if (position.Item2 < fieldSize-1)
+        {
+            position.Item2++;
+            Move();
+        }
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        switch (e.Code)
+        {
+            case "ArrowDown":
+                Down();
+                break;
+            case "ArrowUp":
+                Up();
+                break;  
+            case "ArrowLeft":
+                Left();
+                break; 
+            case "ArrowRight":
+                Right();
+                break;
+        }
+    }
+}
