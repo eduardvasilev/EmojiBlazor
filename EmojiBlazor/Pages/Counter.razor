@@ -1,5 +1,7 @@
 ﻿@page "/counter"
 @using System.Text
+@using EmojiBlazor.Model
+@using EmojiEngine
 
 <PageTitle>Counter</PageTitle>
 
@@ -15,15 +17,17 @@
     private int currentCount = 0;
     private string text =string.Empty;
     private static int fieldSize = 6;
-    private string[,] positions = new string[fieldSize, fieldSize];
 
-    private (int, int) position = (0, 0);
-    private StringBuilder _stringBuilder = new StringBuilder();
+    private Player player = new Player("🐈", () => fieldSize - 1);
+    private DevilEnemy enemy  = new DevilEnemy(() => fieldSize - 1);
+    private Level _level = new Level(fieldSize, new Tree());
 
     [Inject] private IJSRuntime _js { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        _level.EmojiObjects.Add(player);
+        _level.EmojiObjects.Add(enemy);
         Move();
     }
 
@@ -36,64 +40,58 @@
 
     private void Move()
     {
-        text = string.Empty;
-        _stringBuilder.Clear();
-        for (int i = 0; i < fieldSize; i++)
-        {
-            for (int j = 0; j < fieldSize; j++)
-            {
-                if (i == position.Item1 && j == position.Item2)
-                {
-                    positions[position.Item1, position.Item2] = "🐈";
-                }
-                else
-                {
-                    positions[i, j] = "🌳";
-                }
-
-                _stringBuilder.Append(positions[i, j]);
-            }
-
-            _stringBuilder.Append(Environment.NewLine);
-        }
-
-        text = _stringBuilder.ToString();
+        text = _level.DoFrame();
     }
 
 
     private void Down()
     {
-        if (position.Item1 < fieldSize-1)
-        {
-            position.Item1++;
-            Move();
-        }
+        enemy.MoveEnemy();
+        player.Down();
+        Move();
     }   
 
     private void Up()
     {
-        if (position.Item1 > 0)
-        {
-            position.Item1--;
-            Move();
-        }
+        player.Up();
+        enemy.MoveEnemy();
+        Move();
     }   
 
     private void Left()
     {
-        if (position.Item2 > 0)
-        {
-            position.Item2--;
-            Move();
-        }
+        enemy.MoveEnemy();
+        player.Left();
+        Move();
     }   
 
     private void Right()
     {
-        if (position.Item2 < fieldSize-1)
+        enemy.MoveEnemy();
+        player.Right();
+        Move();
+    }
+
+    private void  MoveEnemy()
+    {
+        Random random = new Random();
+        int move = random.Next(0, 100);
+
+        if (move < 25 && enemy.X < fieldSize - 1)
         {
-            position.Item2++;
-            Move();
+            enemy.X++;
+        }
+        else if (move < 50 && enemy.X > 0)
+        {
+            enemy.X--;
+        }
+        else if (move < 75 && enemy.Y < fieldSize - 1)
+        {
+            enemy.Y++;
+        } 
+        else if (enemy.Y > 0)
+        {
+            enemy.Y--;
         }
     }
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmojiBlazor", "EmojiBlazor\EmojiBlazor.csproj", "{BE32A0AB-E578-4D24-BF28-E6B9AD979C06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmojiEngine", "EmojiEngine\EmojiEngine.csproj", "{746650BF-6EDF-4E0D-ABBE-F70B0862E41D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BE32A0AB-E578-4D24-BF28-E6B9AD979C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE32A0AB-E578-4D24-BF28-E6B9AD979C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE32A0AB-E578-4D24-BF28-E6B9AD979C06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{746650BF-6EDF-4E0D-ABBE-F70B0862E41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{746650BF-6EDF-4E0D-ABBE-F70B0862E41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{746650BF-6EDF-4E0D-ABBE-F70B0862E41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{746650BF-6EDF-4E0D-ABBE-F70B0862E41D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
