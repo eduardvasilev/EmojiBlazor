@@ -1,8 +1,9 @@
 ﻿using EmojiEngine.Interfaces;
+using EmojiEngine.Model;
 
 namespace EmojiBlazor.Model;
 
-public class DevilEnemy : IEmojiObject
+public class DevilEnemy : MovableObject, IEmojiObject
 {
     private readonly Func<int> _borderLimitFunc;
 
@@ -69,7 +70,5 @@ public class DevilEnemy : IEmojiObject
         }
     }
 
-    public string Emoji { get => "😈"; }
-    public int X { get; set; }
-    public int Y { get; set; }
+    public override string Emoji { get => "😈"; }
 }

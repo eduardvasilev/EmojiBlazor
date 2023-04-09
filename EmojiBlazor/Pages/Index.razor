@@ -1,9 +1,100 @@
 ﻿@page "/"
+@using EmojiBlazor.Model
+@using EmojiEngine
+@using EmojiBlazor.GameLogic
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Test game</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="field">@text</div>
 
-Welcome to your new app.
+<button class="btn btn-primary" @onclick="Down">Down</button>
+<button class="btn btn-primary" @onclick="Up">Up</button>
+<button class="btn btn-primary" @onclick="Left">Left</button>
+<button class="btn btn-primary" @onclick="Right">Right</button>
+<input id="gamepad" type="text" @onkeydown="@Enter" />
+@code {
+    private string text = string.Empty;
+    private static int fieldSize = 6;
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    private Player player = new("🐈", () => fieldSize - 1);
+    private DevilEnemy enemy = new(() => fieldSize - 1);
+    private Level _level = new(new ActionProcessor(), fieldSize, new Tree());
+
+    [Inject] private IJSRuntime _js { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _level.EmojiObjects.Add(player);
+        _level.EmojiObjects.Add(enemy);
+        _level.EmojiObjects.Add(new Rock()
+            {
+                X = 0,
+                Y = 1
+            });
+        _level.EmojiObjects.Add(new Rock
+            {
+                X = 1,
+                Y = 1
+            });
+        Move();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _js.InvokeAsync<bool>("SetFocusByElementId", "gamepad");
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void Move()
+    {
+        text = _level.DoFrame();
+    }
+
+    private void Down()
+    {
+        enemy.MoveEnemy();
+        player.Down();
+        Move();
+    }
+
+    private void Up()
+    {
+        player.Up();
+        enemy.MoveEnemy();
+        Move();
+    }
+
+    private void Left()
+    {
+        enemy.MoveEnemy();
+        player.Left();
+        Move();
+    }
+
+    private void Right()
+    {
+        enemy.MoveEnemy();
+        player.Right();
+        Move();
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        switch (e.Code)
+        {
+            case "ArrowDown":
+                Down();
+                break;
+            case "ArrowUp":
+                Up();
+                break;
+            case "ArrowLeft":
+                Left();
+                break;
+            case "ArrowRight":
+                Right();
+                break;
+        }
+    }
+}

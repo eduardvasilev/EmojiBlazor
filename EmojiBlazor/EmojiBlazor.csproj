@@ -15,4 +15,8 @@
     <ProjectReference Include="..\EmojiEngine\EmojiEngine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="GameLogic\" />
+  </ItemGroup>
+
 </Project>

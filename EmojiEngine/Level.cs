@@ -6,14 +6,16 @@ namespace EmojiEngine;
 
 public class Level
 {
+    private readonly IActionProcessor _actionProcessor;
     private readonly IEmojiObject _placeholder;
-    private StringBuilder _stringBuilder = new StringBuilder();
+    private StringBuilder _stringBuilder = new();
     private IEmojiObject[,] _positions;
 
     public int FieldSize { get; }
 
-    public Level(int fieldSize, IEmojiObject placeholder)
+    public Level(IActionProcessor actionProcessor, int fieldSize, IEmojiObject placeholder)
     {
+        _actionProcessor = actionProcessor;
         _placeholder = placeholder;
         FieldSize = fieldSize;
         _positions = new IEmojiObject[fieldSize, fieldSize];
@@ -40,6 +42,7 @@ public class Level
                 {
                     if (_positions[x, y] is not ISolid)
                     {
+                        _actionProcessor.ProcessObjectAction(this, emoji, _positions[x, y]);
                         _positions[x, y] = emoji;
                     }
                     else
@@ -54,20 +57,14 @@ public class Level
                         }
 
                         _positions[emoji.X, emoji.Y] = emoji;
-
-                        //_stringBuilder.Remove(_stringBuilder.Length - 1, 1);
-                        //_stringBuilder.Append(_positions[movable.PrevX, movable.PrevY].Emoji);
                     }
                 }
                 else
                 {
                     _positions[x, y] = emoji;
                 }
-
-                //_stringBuilder.Append(_positions[x, y].Emoji);
             }
 
-            //_stringBuilder.Append(Environment.NewLine);
         }
 
         for (int x = 0; x < FieldSize; x++)
