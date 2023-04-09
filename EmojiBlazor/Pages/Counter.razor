@@ -18,8 +18,8 @@
     private string text =string.Empty;
     private static int fieldSize = 6;
 
-    private Player player = new Player("🐈", () => fieldSize - 1);
-    private DevilEnemy enemy  = new DevilEnemy(() => fieldSize - 1);
+    private Player player = new("🐈", () => fieldSize - 1);
+    private DevilEnemy enemy  = new(() => fieldSize - 1);
     private Level _level = new Level(fieldSize, new Tree());
 
     [Inject] private IJSRuntime _js { get; set; }
@@ -27,7 +27,16 @@
     protected override async Task OnInitializedAsync()
     {
         _level.EmojiObjects.Add(player);
-        _level.EmojiObjects.Add(enemy);
+        //_level.EmojiObjects.Add(enemy);
+        _level.EmojiObjects.Add(new Rock()
+        {
+            X = 0,
+            Y = 1
+        });
+        _level.EmojiObjects.Add(new Rock
+        {
+            X = 1, Y = 1
+        });
         Move();
     }
 
@@ -70,29 +79,6 @@
         enemy.MoveEnemy();
         player.Right();
         Move();
-    }
-
-    private void  MoveEnemy()
-    {
-        Random random = new Random();
-        int move = random.Next(0, 100);
-
-        if (move < 25 && enemy.X < fieldSize - 1)
-        {
-            enemy.X++;
-        }
-        else if (move < 50 && enemy.X > 0)
-        {
-            enemy.X--;
-        }
-        else if (move < 75 && enemy.Y < fieldSize - 1)
-        {
-            enemy.Y++;
-        } 
-        else if (enemy.Y > 0)
-        {
-            enemy.Y--;
-        }
     }
 
     public void Enter(KeyboardEventArgs e)

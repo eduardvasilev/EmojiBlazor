@@ -1,4 +1,4 @@
-﻿using EmojiEngine;
+﻿using EmojiEngine.Interfaces;
 
 namespace EmojiBlazor.Model;
 

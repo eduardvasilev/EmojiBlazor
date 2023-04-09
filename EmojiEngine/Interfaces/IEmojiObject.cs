@@ -1,4 +1,4 @@
-﻿namespace EmojiEngine;
+﻿namespace EmojiEngine.Interfaces;
 
 public interface IEmojiObject
 {

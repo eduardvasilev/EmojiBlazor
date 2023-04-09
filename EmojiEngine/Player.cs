@@ -1,9 +1,15 @@
-﻿namespace EmojiEngine;
+﻿using EmojiEngine.Interfaces;
+using EmojiEngine.Model;
 
-public class Player : IEmojiObject
+namespace EmojiEngine;
+
+public class Player : IEmojiObject, IMovable
 {
     private readonly Func<int> _borderLimitFunc;
     private string _emoji;
+    private int _x;
+    private int _y;
+    private int _prevX;
 
     public Player(string emoji, Func<int> borderLimitFunc)
     {
@@ -50,6 +56,35 @@ public class Player : IEmojiObject
     }
 
     public string Emoji => _emoji;
-    public int X { get; set; }
-    public int Y { get; set; }
+
+    public int X
+    {
+        get => _x;
+        set
+        {
+            PrevX = _x;
+            LastMovement = Movement.Horizontal;
+            _x = value;
+        }
+    }
+
+    public int Y
+    {
+        get => _y;
+        set
+        {
+            PrevY = _y;
+            LastMovement = Movement.Vertical;
+            _y = value;
+        }
+    }
+
+    public int PrevX
+    {
+        get => _prevX;
+        set { _prevX = value; }
+    }
+
+    public int PrevY { get; set; }
+    public Movement LastMovement { get; set; }
 }

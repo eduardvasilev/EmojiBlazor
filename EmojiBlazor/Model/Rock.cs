@@ -2,9 +2,9 @@
 
 namespace EmojiBlazor.Model;
 
-public class Tree : IEmojiObject
+public class Rock : IEmojiObject, ISolid
 {
-    public string Emoji => "🌳";
+    public string Emoji => "🗿";
     public int X { get; set; }
     public int Y { get; set; }
 }
