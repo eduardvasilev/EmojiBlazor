@@ -8,7 +8,7 @@ public class Player : MovableObject, IMovable
     private readonly Func<int> _borderLimitFunc;
     private string _emoji;
 
-    public Player(string emoji, Func<int> borderLimitFunc)
+    public Player(int x, int y, string emoji, Func<int> borderLimitFunc) : base(x, y)
     {
         _emoji = emoji;
         _borderLimitFunc = borderLimitFunc;

@@ -16,8 +16,8 @@
     private string text = string.Empty;
     private static int fieldSize = 6;
 
-    private Player player = new("🐈", () => fieldSize - 1);
-    private DevilEnemy enemy = new(() => fieldSize - 1);
+    private Player player = new(0, 0, "🐈", () => fieldSize - 1);
+    private DevilEnemy enemy = new(3, 3, () => fieldSize - 1);
     private Level _level = new(new ActionProcessor(), fieldSize, new Tree());
 
     [Inject] private IJSRuntime _js { get; set; }
@@ -26,16 +26,8 @@
     {
         _level.EmojiObjects.Add(player);
         _level.EmojiObjects.Add(enemy);
-        _level.EmojiObjects.Add(new Rock()
-            {
-                X = 0,
-                Y = 1
-            });
-        _level.EmojiObjects.Add(new Rock
-            {
-                X = 1,
-                Y = 1
-            });
+        _level.EmojiObjects.Add(new Rock(0, 1));
+        _level.EmojiObjects.Add(new Rock(1, 1));
         Move();
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json;
 using EmojiEngine.Interfaces;
 using EmojiEngine.Model;
 
@@ -10,6 +11,7 @@ public class Level
     private readonly IEmojiObject _placeholder;
     private StringBuilder _stringBuilder = new();
     private IEmojiObject[,] _positions;
+    private IEmojiObject[,] _initialPositions;
 
     public int FieldSize { get; }
 
@@ -21,9 +23,16 @@ public class Level
         _positions = new IEmojiObject[fieldSize, fieldSize];
     }
 
-    public List<IEmojiObject> EmojiObjects { get; set; } = new();
+    public void ReloadLevel()
+    {
+        foreach (var initialEmojiObject in EmojiObjects)
+        {
+            initialEmojiObject.SetInitial();
+        }
+    }
 
-    public virtual string DoFrame()
+    public List<IEmojiObject> EmojiObjects { get; set; } = new();
+    public string DoFrame()
     {
         _stringBuilder.Clear();
 
@@ -79,5 +88,4 @@ public class Level
 
         return _stringBuilder.ToString();
     }
-
 }

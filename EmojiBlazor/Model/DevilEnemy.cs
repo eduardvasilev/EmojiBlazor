@@ -7,7 +7,7 @@ public class DevilEnemy : MovableObject, IEmojiObject
 {
     private readonly Func<int> _borderLimitFunc;
 
-    public DevilEnemy(Func<int> borderLimitFunc)
+    public DevilEnemy(int x, int y, Func<int> borderLimitFunc) : base(x, y)
     {
         _borderLimitFunc = borderLimitFunc;
         X = 3;

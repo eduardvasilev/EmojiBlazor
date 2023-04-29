@@ -12,7 +12,7 @@ public class ActionProcessor : IActionProcessor
         {
             case Player when withObject is DevilEnemy:
             case DevilEnemy when withObject is Player:
-                Console.WriteLine("oops");
+                level.ReloadLevel();
                 break;
         }
     }
