@@ -13,10 +13,10 @@ public class ActionProcessor : IActionProcessor
         {
             case Player when withObject is DevilEnemy:
             case DevilEnemy when withObject is Player:
-                (level as CandyLevel).ReloadLevel();
+                ((level as CandyLevel)!).ReloadLevel();
                 break;
             case Player when withObject is Candy:
-                (level as CandyLevel).ReplaceCandy(withObject);
+                ((level as CandyLevel)!).ReplaceCandy(withObject);
                 break;
 
         }
