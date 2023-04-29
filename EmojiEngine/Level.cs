@@ -10,7 +10,7 @@ public class Level
     private readonly IActionProcessor _actionProcessor;
     private readonly IEmojiObject _placeholder;
     private StringBuilder _stringBuilder = new();
-    private IEmojiObject[,] _positions;
+    protected IEmojiObject[,] _positions;
     private IEmojiObject[,] _initialPositions;
 
     public int FieldSize { get; }
@@ -23,7 +23,7 @@ public class Level
         _positions = new IEmojiObject[fieldSize, fieldSize];
     }
 
-    public void ReloadLevel()
+    public virtual void ReloadLevel()
     {
         foreach (var initialEmojiObject in EmojiObjects)
         {

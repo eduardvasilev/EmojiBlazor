@@ -2,9 +2,9 @@
 
 namespace EmojiBlazor.Model;
 
-public class Rock : EmojiObjectBase, ISolid
+public class Candy : EmojiObjectBase
 {
-    public Rock(int x, int y) : base(x, y, "🗿")
+    public Candy(int x, int y) : base(x, y, "🍬")
     {
     }
 }
